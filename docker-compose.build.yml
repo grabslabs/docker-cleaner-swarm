@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  cleaner:
+    hostname: docker-cleaner
+    image: ${DOCKER_REGISTRY-}docker-cleaner
+    build:
+      context: .
+      dockerfile: Dockerfile

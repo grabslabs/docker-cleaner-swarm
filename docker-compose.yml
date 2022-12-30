@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  cleaner:
+    hostname: docker-cleaner
+    image: ghcr.io/grabslabs/docker-cleaner:latest
+    environment:
+      - TZ=Europe/Ljubljana
+      - CLEAR_CONTAINERS=false
+      - CLEAR_IMAGES=true
+      - CLEAR_VOLUMES=true
+      - CLEAR_NETWORKS=true
+      - CLEAR_LOGS=false
+      - CLEAR_CACHE=true
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "/var/lib/docker:/var/lib/docker"
+    deploy:
+      replicas: 1
+      placement:
+        max_replicas_per_node: 1
+      update_config:
+        parallelism: 1
+        delay: 10s
+        monitor: 5s
+        failure_action: rollback
+      restart_policy:
+        condition: any
+        delay: 3s
+        max_attempts: 5
+        window: 60s
+    networks:
+        cleaner-network: null
+
+networks:
+  cleaner-network:
+    name: cleaner-network
+    external: true

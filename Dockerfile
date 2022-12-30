@@ -1,4 +1,4 @@
-FROM alpine
+FROM alpine:3.15
 
 # install packages
 RUN apk update && apk add docker
@@ -11,4 +11,4 @@ RUN \
   rm -rf /root/image
 
 ENTRYPOINT ["/entrypoint.sh"]
-CMD ["cron", "46 */2 * * *"]
+CMD ["cron", "0 3 * * *"]

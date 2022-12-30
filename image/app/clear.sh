@@ -1,6 +1,8 @@
 #!/bin/sh
 set -e
 
+echo "Start clear jobs: $(date '+%Y-%m-%d %H:%M:%S')"
+
 if [[ -z "$CLEAR_CONTAINERS" ]]; then
    sh -x /app/containers.sh
 else
@@ -48,3 +50,5 @@ else
 		sh -x /app/cache.sh
 	fi
 fi
+
+echo "End clear jobs: $(date '+%Y-%m-%d %H:%M:%S')"
