@@ -1,7 +1,8 @@
-FROM alpine:3.15
+FROM alpine:3.18
 
 # install packages
-RUN apk update && apk add docker
+RUN apk update 
+RUN apk add docker docker-compose
 
 # load files
 ADD image /root/image
