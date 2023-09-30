@@ -3,5 +3,9 @@
 set -e
 
 echo "Start clean docker containers: $(date '+%Y-%m-%d %H:%M:%S')"
-sh -c -x `docker rm $(docker ps -qa --no-trunc --filter "status=exited")` ||:
+if docker ps -qa --filter "status=exited" | grep -q . ; then
+    docker rm $(docker ps -qa --no-trunc --filter "status=exited") ||:
+else
+    echo "No exited containers to remove."
+fi
 echo "End clean docker containers: $(date '+%Y-%m-%d %H:%M:%S')"

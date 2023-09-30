@@ -3,5 +3,7 @@
 set -e
 
 echo "Start clean docker networks: $(date '+%Y-%m-%d %H:%M:%S')"
-sh -c -x `docker network rm $(docker network ls | grep "bridge" | awk '/ / { print $1 }')` ||:
+docker network ls --filter "driver=bridge" --format "{{.ID}} {{.Name}}" | while read -r id name; do
+    docker network rm "$id" || true
+done
 echo "End clean docker networks: $(date '+%Y-%m-%d %H:%M:%S')"

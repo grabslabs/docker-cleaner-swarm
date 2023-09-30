@@ -3,6 +3,16 @@
 set -e
 
 echo "Start clean docker volumes: $(date '+%Y-%m-%d %H:%M:%S')"
-sh -c -x `docker volume rm $(docker volume ls -qf "dangling=true")` ||:
-sh -c -x `docker volume ls -qf dangling=true | xargs -r docker volume rm` ||:
+# Check and remove dangling Docker volumes
+if [ -n "$(docker volume ls -qf "dangling=true")" ]; then
+    docker volume rm $(docker volume ls -qf "dangling=true") ||:
+else
+    echo "No dangling volumes to remove."
+fi
+# Check and remove dangling Docker volumes (alternative command)
+if [ -n "$(docker volume ls -qf dangling=true)" ]; then
+    docker volume ls -qf dangling=true | xargs -r docker volume rm ||:
+else
+    echo "No dangling volumes to remove (alternative command)."
+fi
 echo "End clean docker volumes: $(date '+%Y-%m-%d %H:%M:%S')"

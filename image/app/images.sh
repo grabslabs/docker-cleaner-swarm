@@ -3,6 +3,12 @@
 set -e
 
 echo "Start clean docker images: $(date '+%Y-%m-%d %H:%M:%S')"
-sh -c -x `docker rmi $(docker images --filter "dangling=true" -q --no-trunc)` ||:
-sh -c -x `docker rmi $(docker images | grep "none" | awk '/ / { print $3 }')` ||:
+if docker ps -qa --filter "status=exited" | grep -q . ; then
+    # Remove dangling images
+    docker rmi $(docker images --filter "dangling=true" -q --no-trunc) ||:
+    # Remove images with name "none"
+    docker rmi $(docker images | grep "none" | awk '/ / { print $3 }') ||:
+else
+    echo "No exited images to remove."
+fi
 echo "End clean docker images: $(date '+%Y-%m-%d %H:%M:%S')"
