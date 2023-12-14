@@ -6,7 +6,7 @@ services:
     image: ghcr.io/grabslabs/docker-cleaner:latest
     environment:
       - TZ=Europe/Ljubljana
-      - CLEAR_CONTAINERS=false
+      - CLEAR_CONTAINERS=true
       - CLEAR_IMAGES=true
       - CLEAR_VOLUMES=true
       - CLEAR_NETWORKS=true
