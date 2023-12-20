@@ -6,5 +6,6 @@ echo 'Pull images'
 docker pull ghcr.io/grabslabs/docker-cleaner:latest
 
 echo 'Deploy stack'
-docker stack rm docker-cleaner
-docker stack deploy --compose-file docker-compose.yml docker-cleaner
+docker stack rm docker-cleaner-swarm
+sleep 30
+docker stack deploy --compose-file docker-compose.yml docker-cleaner-swarm
